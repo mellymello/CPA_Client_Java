@@ -46,6 +46,7 @@ public class GUI_app {
 
 			// here we have to adapt the client reaction... see spec 8.2.2
 			// as the server may respond in differents way
+			// TO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
 			// case 8.2.2.1
 			System.out.println("*****\nTo associate your device please visit: "
@@ -55,15 +56,21 @@ public class GUI_app {
 			// polls on /token with the device_code with given interval
 			User javaUser;
 			do {
-				System.out.println("pools on /token...waiting the user to identify on "+javaUserInfo.getVerificationURI());
+
 				javaUser = DeviceFlow.requestUserAccessToken(authProvider,
 						javaClient.getId(), javaClient.getSecret(),
 						javaUserInfo.getDeviceCode(), domain);
-				//here pause the interval time
+				//here pause the interval time and catch specific error exception like slowdown...
+				//TO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+				
 				
 
 			} while (javaUser.getToken() == null && javaUser.getName() == null);
-			System.out.println("*****\nUser auth done:" + javaUser+"*****\n");
+			
+			System.out.println("*****\nUser auth done:" + javaUser+"\n*****");
+			//now we can post on the resource as an authenticated user
+			
+			
 		} catch (ServerError se) {
 
 			System.out.println(se.toString());

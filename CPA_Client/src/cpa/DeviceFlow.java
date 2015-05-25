@@ -218,9 +218,9 @@ public class DeviceFlow {
 
 		HashMap<String, String> body = new HashMap<>();
 		body.put("grant_type", "http://tech.ebu.ch/cpa/1.0/device_code");
-		body.put("device_code", deviceCode);
 		body.put("client_id", clientId);
 		body.put("client_secret", clientSecret);
+		body.put("device_code", deviceCode);
 		body.put("domain", domain);
 
 		ServerResponse tokenResponse;
@@ -238,6 +238,16 @@ public class DeviceFlow {
 
 		} else if (tokenResponse.getCode() == 200) {
 			// parsing server response
+			JsonParser jsonParser = new JsonParser();
+			JsonObject jo = (JsonObject) jsonParser.parse(tokenResponse.getBody());
+
+			u.setName(jo.get("user_name").getAsString());
+			Token t = new Token();
+			t.setAccessToken(jo.get("access_token").getAsString());
+			t.setTokenType(jo.get("token_type").getAsString());
+			t.setExpiresIn(jo.get("expires_in").getAsInt());
+			t.setDomain(jo.get("domain").getAsString());
+			u.setToken(t);
 		}
 
 		 return u;
