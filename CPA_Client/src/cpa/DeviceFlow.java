@@ -10,6 +10,7 @@ import utils.Client;
 import utils.Communication;
 import utils.ServerError;
 import utils.ServerResponse;
+import utils.Token;
 
 public class DeviceFlow {
 
@@ -52,6 +53,48 @@ public class DeviceFlow {
 		return c;
 		
 	}
+	/**
+	   * Request a token for this client (Client Mode)
+	   *
+	   * @see EBU Tech 3366, section 8.3.1.1
+	   *
+	   * @param authProvider Base url of the authorization provider
+	   * @param clientId Id of this client
+	   * @param clientSecret Secret of this client
+	   * @param domain Domain of the requested token
+	   * @param done
+	 * @throws Exception 
+	   */
+	public static Token requestClientAccessToken(String authProvider, String clientId, String clientSecret, String domain) throws Exception{
+		
+		Token t = new Token();
+		
+		HashMap<String, String> body = new HashMap<>();
+		body.put("grant_type", "http://tech.ebu.ch/cpa/1.0/client_credentials");
+		body.put("client_id", clientId);
+		body.put("client_secret", clientSecret);
+		body.put("domain", domain);
+		
+		ServerResponse tokenResponse;
+		tokenResponse=Communication.sendPost(authProvider+"/"+Endpoints.apToken, body, null);
+		// print result
+		System.out.println("Response Code : " + tokenResponse.getCode());
+		System.out.println(tokenResponse.getBody());
+		
+		if(tokenResponse.getCode()>=400){
+			throw new ServerError(tokenResponse.getBody());
+		}
+		//parsing server response 
+		
+		TO DOOOOOOOOOOOOOOOOOOooo
+//		JsonParser jsonParser = new JsonParser();
+//		JsonObject jo = (JsonObject)jsonParser.parse(registrationResponse.getBody());
+//		c.setId(jo.get("client_id").getAsString());
+//		c.setSecret(jo.get("client_secret").getAsString());
+		
+		return t;
+	}
+	
 	
 	/**
 	   * Request a user code

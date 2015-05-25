@@ -5,6 +5,7 @@ public class Client {
 	private String name;
 	private String id;
 	private String secret;
+	private Token token;
 	
 	
 	
@@ -36,5 +37,16 @@ public class Client {
 	public String toString(){
 		return "Client [name,id,secret] : [" +name+","+id+","+secret+"]"; 
 	}
+
+
+	public Token getToken() {
+		return token;
+	}
+
+
+	public void setToken(Token token) {
+		this.token = token;
+	}
+	
 	
 }
