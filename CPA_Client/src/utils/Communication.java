@@ -80,9 +80,17 @@ public class Communication {
 		int responseCode = con.getResponseCode();
 		response.setCode(responseCode);
 		
+		BufferedReader in ;
+		
+		if (responseCode >= 400) {
+			in = new BufferedReader(new InputStreamReader(
+					con.getErrorStream()));
+		} else {
+			in = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+		}
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				con.getInputStream()));
+		
 		String inputLine;
 		StringBuffer responseBody = new StringBuffer();
 

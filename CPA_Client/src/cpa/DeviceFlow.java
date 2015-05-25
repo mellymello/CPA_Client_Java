@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 
 import utils.Client;
 import utils.Communication;
+import utils.ServerError;
 import utils.ServerResponse;
 
 public class DeviceFlow {
@@ -38,6 +39,9 @@ public class DeviceFlow {
 		System.out.println("Response Code : " + registrationResponse.getCode());
 		System.out.println(registrationResponse.getBody());
 		
+		if(registrationResponse.getCode()>=400){
+			throw new ServerError(registrationResponse.getBody());
+		}
 		//parsing server response
 		JsonParser jsonParser = new JsonParser();
 		JsonObject jo = (JsonObject)jsonParser.parse(registrationResponse.getBody());

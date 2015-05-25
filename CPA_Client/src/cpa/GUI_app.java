@@ -1,6 +1,7 @@
 package cpa;
 
 import utils.Client;
+import utils.ServerError;
 
 public class GUI_app {
 
@@ -11,7 +12,11 @@ public class GUI_app {
 			
 			Client javaClient = DeviceFlow.registerClient("http://auth-cpa.ebu.io", "JavaClient", "cpa_java", "1.0");
 			System.out.println("Registered client:"+ javaClient);
-		} catch (Exception e) {
+		}catch(ServerError se){
+
+			System.out.println(se.toString());
+		}
+		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
