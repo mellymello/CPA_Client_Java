@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import utils.AssociationInfo;
 import utils.Client;
 import utils.Communication;
 import utils.ServerError;
@@ -49,6 +50,51 @@ public class DeviceFlow {
 		c.setSecret(jo.get("client_secret").getAsString());
 		
 		return c;
+		
+	}
+	
+	/**
+	   * Request a user code
+	   *
+	   * @see EBU Tech 3366, section 8.2
+	   *
+	   * @param authProvider Base url of the authorization provider
+	   * @param clientId Id of this client
+	   * @param clientSecret Secret of this client
+	   * @param domain Domain of the token for which the client is requesting an association
+	   * @param done Callback done(err)
+	 * @throws Exception 
+	   */
+	public static AssociationInfo requestUserCode(String authProvider, String clientId, String clientSecret, String domain) throws Exception{
+		
+		AssociationInfo ai = new AssociationInfo();
+		
+		HashMap<String, String> body = new HashMap<>();
+		body.put("client_id", clientId);
+		body.put("client_secret", clientSecret);
+		body.put("domain", domain);
+		
+		ServerResponse userCodeResponse;
+		userCodeResponse=Communication.sendPost(authProvider+"/"+Endpoints.apAssociate, body, null);
+		// print result
+		System.out.println("Response Code : " + userCodeResponse.getCode());
+		System.out.println(userCodeResponse.getBody());
+		
+		if(userCodeResponse.getCode()>=400){
+			throw new ServerError(userCodeResponse.getBody());
+		}
+		//parsing server response
+		JsonParser jsonParser = new JsonParser();
+		JsonObject jo = (JsonObject)jsonParser.parse(userCodeResponse.getBody());
+		
+		ai.setDeviceCode(jo.get("device_code").getAsString());
+		ai.setUserCode(jo.get("user_code").getAsString());
+		ai.setVerificationURI(jo.get("verification_uri").getAsString());
+		ai.setInterval(jo.get("interval").getAsInt());
+		ai.setExpiresIn(jo.get("expires_in").getAsInt());
+		
+		return ai;
+		
 		
 	}
 }
