@@ -34,8 +34,12 @@ public class Client {
 		this.secret = secret;
 	}
 	
-	public String toString(){
-		return "Client [name,id,secret] : [" +name+","+id+","+secret+"]"; 
+
+
+	@Override
+	public String toString() {
+		return "Client [name=" + name + ", id=" + id + ", secret=" + secret
+				+ ", token=" + token + "]";
 	}
 
 

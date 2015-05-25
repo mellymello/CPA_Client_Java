@@ -2,15 +2,15 @@ package utils;
 
 public class Token {
 
-	private String token;
+	private String accessToken;
 	private String tokenType;
 	private int expiresIn;
 	private String domain;
-	public String getToken() {
-		return token;
+	public String getAccessToken() {
+		return accessToken;
 	}
-	public void setToken(String token) {
-		this.token = token;
+	public void setAccessToken(String token) {
+		this.accessToken = token;
 	}
 	public String getTokenType() {
 		return tokenType;
@@ -30,6 +30,12 @@ public class Token {
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
+	@Override
+	public String toString() {
+		return "Token [token=" + accessToken + ", tokenType=" + tokenType
+				+ ", expiresIn=" + expiresIn + ", domain=" + domain + "]";
+	}
 
+	
 	
 }

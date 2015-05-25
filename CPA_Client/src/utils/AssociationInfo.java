@@ -37,8 +37,12 @@ public class AssociationInfo {
 	public void setExpiresIn(int expiresIn) {
 		this.expiresIn = expiresIn;
 	}
-	
-public String toString(){
-		return "AssocInfos [device_code,user_code,verification_uri,interval,expires_in]: [" +deviceCode+","+userCode+","+verificationURI+","+interval+","+expiresIn+"]"; 
+	@Override
+	public String toString() {
+		return "AssociationInfo [deviceCode=" + deviceCode + ", userCode="
+				+ userCode + ", verificationURI=" + verificationURI
+				+ ", interval=" + interval + ", expiresIn=" + expiresIn + "]";
 	}
+	
+
 }
