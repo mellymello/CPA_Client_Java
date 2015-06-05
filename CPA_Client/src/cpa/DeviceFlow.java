@@ -28,8 +28,6 @@ public class DeviceFlow {
 	 *            Identifier of the software running on this client
 	 * @param softwareVersion
 	 *            Version of the software running on this client
-	 * @param done
-	 *            function(err, clientId, clientSecret) {}
 	 * @throws Exception
 	 */
 	public static Client registerClient(String authProvider, String clientName,
@@ -76,7 +74,6 @@ public class DeviceFlow {
 	 *            Secret of this client
 	 * @param domain
 	 *            Domain of the requested token
-	 * @param done
 	 * @throws Exception
 	 */
 	public static Token requestClientAccessToken(String authProvider,
@@ -113,29 +110,29 @@ public class DeviceFlow {
 		return t;
 	}
 
-	// public static void tagRadioClientMode(String domain,String station,String
-	// time,String clientToken) throws Exception{
-	//
-	// HashMap<String, String> body = new HashMap<>();
-	//
-	// body.put("station", station);
-	// body.put("time", time);
-	//
-	//
-	// ServerResponse tagClientResponse;
-	// tagClientResponse=Communication.sendPost("http://"+domain+"/tag", body,
-	// clientToken);
-	// // print result
-	// System.out.println("Response Code : " + tagClientResponse.getCode());
-	// System.out.println(tagClientResponse.getBody());
-	//
-	// if(tagClientResponse.getCode()>=400){
-	// throw new ServerError(tagClientResponse.getBody());
-	// }
-	// //parsing server response
-	//
-	//
-	// }
+	 public static void tagRadioClientMode(String domain,String station,String
+	 time,String clientToken) throws Exception{
+	
+	 HashMap<String, String> body = new HashMap<>();
+	
+	 body.put("station", station);
+	 body.put("time", time);
+	
+	
+	 ServerResponse tagClientResponse;
+	 tagClientResponse=Communication.sendPost("https://"+domain+"/tag", body,
+	 clientToken);
+	 // print result
+	 System.out.println("Response Code : " + tagClientResponse.getCode());
+	 System.out.println(tagClientResponse.getBody());
+	
+	 if(tagClientResponse.getCode()>=400){
+	 throw new ServerError(tagClientResponse.getBody());
+	 }
+	 //parsing server response
+	
+	
+	 }
 
 	/**
 	 * Request a user code
@@ -151,8 +148,6 @@ public class DeviceFlow {
 	 * @param domain
 	 *            Domain of the token for which the client is requesting an
 	 *            association
-	 * @param done
-	 *            Callback done(err)
 	 * @throws Exception
 	 */
 	public static AssociationInfo requestUserCode(String authProvider,
@@ -180,13 +175,28 @@ public class DeviceFlow {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject jo = (JsonObject) jsonParser.parse(userCodeResponse
 				.getBody());
-
-		ai.setDeviceCode(jo.get("device_code").getAsString());
-		ai.setUserCode(jo.get("user_code").getAsString());
-		ai.setVerificationURI(jo.get("verification_uri").getAsString());
-		ai.setInterval(jo.get("interval").getAsInt());
-		ai.setExpiresIn(jo.get("expires_in").getAsInt());
-
+		
+		if(jo.get("device_code") != null){
+			ai.setDeviceCode(jo.get("device_code").getAsString());
+		}
+		if(jo.get("user_code") != null){
+			ai.setUserCode(jo.get("user_code").getAsString());
+		}
+		
+		if(jo.get("verification_uri") != null){
+			ai.setVerificationURI(jo.get("verification_uri").getAsString());
+		}
+		
+		if(jo.get("interval") != null){
+			ai.setInterval(jo.get("interval").getAsInt());
+		}
+		
+		if(jo.get("expires_in") != null){
+			ai.setExpiresIn(jo.get("expires_in").getAsInt());
+		}
+		
+		
+		
 		return ai;
 
 	}
@@ -208,7 +218,6 @@ public class DeviceFlow {
 	 *            if the user_code has been validated
 	 * @param domain
 	 *            Domain of the requested token
-	 * @param done
 	 * @throws Exception
 	 */
 	public static User requestUserAccessToken(String authProvider,

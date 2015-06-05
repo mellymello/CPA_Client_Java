@@ -8,12 +8,12 @@ import utils.ServerError;
 import utils.Token;
 import utils.User;
 
-public class GUI_app {
+public class Console_app {
 
 	public static void main(String[] args) {
 		System.out.println("CPA client started  !");
 
-		String authProvider = "http://auth-cpa.ebu.io";
+		String authProvider = "https://auth-cpa.ebu.io";
 		String domain = "bbc1-cpa.ebu.io";
 		String station = "myBBC_station";
 		Date date = new Date();
@@ -32,23 +32,21 @@ public class GUI_app {
 			javaClient.setToken(javaClientToken);
 			System.out.println("*****\nThe client token:" + javaClientToken
 					+ "\n*****");
-			// //just to test we tag the station:
-			// currentTime=Long.toString((date.getTime()/1000)); // as the js
-			// demo client is doing this we follow the same method
-			// DeviceFlow.tagRadioClientMode(domain, station,currentTime ,
-			// javaClient.getToken().getAccessToken());
+//			 //just to test we tag the station:
+//			 currentTime=Long.toString((date.getTime()/1000)); // as the js
+//			 // demo client is doing this we follow the same method
+//			 DeviceFlow.tagRadioClientMode(domain, station,currentTime ,
+//			 javaClient.getToken().getAccessToken());
 
+			
 			// try to associate a user:
 			AssociationInfo javaUserInfo = DeviceFlow.requestUserCode(
 					authProvider, javaClient.getId(), javaClient.getSecret(),
 					domain);
 			System.out.println("*****\nAssociating user:" + javaUserInfo+"*****\n");
 
-			// here we have to adapt the client reaction... see spec 8.2.2
-			// as the server may respond in differents way
-			// TO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 
-			// case 8.2.2.1
+			// case 8.2.2
 			System.out.println("*****\nTo associate your device please visit: "
 					+ javaUserInfo.getVerificationURI());
 			System.out.println("and when asked type in the following code: "
@@ -56,12 +54,13 @@ public class GUI_app {
 			// polls on /token with the device_code with given interval
 			User javaUser;
 			do {
-
+				
+				
 				javaUser = DeviceFlow.requestUserAccessToken(authProvider,
 						javaClient.getId(), javaClient.getSecret(),
 						javaUserInfo.getDeviceCode(), domain);
-				//here pause the interval time and catch specific error exception like slowdown...
-				//TO DOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+				//here pause the interval time
+				Thread.sleep(javaUserInfo.getInterval()*1000);
 				
 				
 
@@ -70,6 +69,7 @@ public class GUI_app {
 			System.out.println("*****\nUser auth done:" + javaUser+"\n*****");
 			//now we can post on the resource as an authenticated user
 			
+		
 			
 		} catch (ServerError se) {
 
