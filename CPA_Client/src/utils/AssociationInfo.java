@@ -7,6 +7,7 @@ public class AssociationInfo {
 	private String verificationURI;
 	private int interval;
 	private int expiresIn ;
+	
 	public String getDeviceCode() {
 		return deviceCode;
 	}
@@ -43,6 +44,4 @@ public class AssociationInfo {
 				+ userCode + ", verificationURI=" + verificationURI
 				+ ", interval=" + interval + ", expiresIn=" + expiresIn + "]";
 	}
-	
-
 }

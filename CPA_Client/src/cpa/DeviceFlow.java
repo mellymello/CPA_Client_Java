@@ -110,29 +110,25 @@ public class DeviceFlow {
 		return t;
 	}
 
-	 public static void tagRadioClientMode(String domain,String station,String
-	 time,String clientToken) throws Exception{
-	
-	 HashMap<String, String> body = new HashMap<>();
-	
-	 body.put("station", station);
-	 body.put("time", time);
-	
-	
-	 ServerResponse tagClientResponse;
-	 tagClientResponse=Communication.sendPost("https://"+domain+"/tag", body,
-	 clientToken);
-	 // print result
-	 System.out.println("Response Code : " + tagClientResponse.getCode());
-	 System.out.println(tagClientResponse.getBody());
-	
-	 if(tagClientResponse.getCode()>=400){
-	 throw new ServerError(tagClientResponse.getBody());
-	 }
-	 //parsing server response
-	
-	
-	 }
+	public static void tagRadioClientMode(String domain, String station,
+			String time, String clientToken) throws Exception {
+
+		HashMap<String, String> body = new HashMap<>();
+
+		body.put("station", station);
+		body.put("time", time);
+
+		ServerResponse tagClientResponse;
+		tagClientResponse = Communication.sendPost("https://" + domain + "/tag", body, clientToken);
+		// print result
+		System.out.println("Response Code : " + tagClientResponse.getCode());
+		System.out.println(tagClientResponse.getBody());
+
+		if (tagClientResponse.getCode() >= 400) {
+			throw new ServerError(tagClientResponse.getBody());
+		}
+
+	}
 
 	/**
 	 * Request a user code
@@ -175,28 +171,29 @@ public class DeviceFlow {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject jo = (JsonObject) jsonParser.parse(userCodeResponse
 				.getBody());
-		
-		if(jo.get("device_code") != null){
+
+		// Here we have to test for every possible response:
+		// see EBU Tech 3366, section 8.2.2
+
+		if (jo.get("device_code") != null) {
 			ai.setDeviceCode(jo.get("device_code").getAsString());
 		}
-		if(jo.get("user_code") != null){
+		if (jo.get("user_code") != null) {
 			ai.setUserCode(jo.get("user_code").getAsString());
 		}
-		
-		if(jo.get("verification_uri") != null){
+
+		if (jo.get("verification_uri") != null) {
 			ai.setVerificationURI(jo.get("verification_uri").getAsString());
 		}
-		
-		if(jo.get("interval") != null){
+
+		if (jo.get("interval") != null) {
 			ai.setInterval(jo.get("interval").getAsInt());
 		}
-		
-		if(jo.get("expires_in") != null){
+
+		if (jo.get("expires_in") != null) {
 			ai.setExpiresIn(jo.get("expires_in").getAsInt());
 		}
-		
-		
-		
+
 		return ai;
 
 	}
@@ -248,7 +245,8 @@ public class DeviceFlow {
 		} else if (tokenResponse.getCode() == 200) {
 			// parsing server response
 			JsonParser jsonParser = new JsonParser();
-			JsonObject jo = (JsonObject) jsonParser.parse(tokenResponse.getBody());
+			JsonObject jo = (JsonObject) jsonParser.parse(tokenResponse
+					.getBody());
 
 			u.setName(jo.get("user_name").getAsString());
 			Token t = new Token();
@@ -259,6 +257,6 @@ public class DeviceFlow {
 			u.setToken(t);
 		}
 
-		 return u;
+		return u;
 	}
 }

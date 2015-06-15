@@ -10,8 +10,11 @@ public class Client {
 	
 	
 	public Client(String name) {
-		super();
 		this.name = name;
+	}
+	
+	public Client(){
+		
 	}
 	
 	

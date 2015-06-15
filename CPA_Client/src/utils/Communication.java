@@ -13,16 +13,13 @@ import com.google.gson.JsonObject;
 public class Communication {
 
 
-
 	// HTTP POST request
-	public static ServerResponse sendPost(String url, HashMap<String, String> body,
-			String accessToken) throws Exception {
+	public static ServerResponse sendPost(String url, HashMap<String, String> body, String accessToken) throws Exception {
 
-		
 		URL obj = new URL(url);
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
-		// add reuqest header
+		// add request header
 		con.setRequestMethod("POST");
 		con.setRequestProperty("User-Agent", "JavaUserAgent");
 		con.setRequestProperty("Content-Type", "application/json");
@@ -43,13 +40,12 @@ public class Communication {
 		wr.flush();
 		wr.close();
 		
-		System.out.println("\nSending 'POST' request to URL : " + url);
-		System.out.println("Post parameters : " + jsonObject.toString());
+		//System.out.println("\nSending 'POST' request to URL : " + url);
+		//System.out.println("Post parameters : " + jsonObject.toString());
 		
 		
 		// getting server response
-		ServerResponse response = new ServerResponse();
-		
+		ServerResponse response = new ServerResponse();		
 		int responseCode = con.getResponseCode();
 		response.setCode(responseCode);
 		
