@@ -17,7 +17,6 @@ public class Console_app {
 		String station = "myBBC_station";
 		Date date = new Date();
 		String currentTime;
-		String storeFile = "users.cpa";
 		try {
 
 //			// register the client
