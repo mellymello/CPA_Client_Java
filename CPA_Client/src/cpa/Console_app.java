@@ -5,6 +5,7 @@ import java.util.Date;
 import utils.AssociationInfo;
 import utils.Client;
 import utils.ServerError;
+import utils.Token;
 import utils.User;
 
 public class Console_app {
@@ -19,20 +20,20 @@ public class Console_app {
 		String currentTime;
 		try {
 
-//			// register the client
-//			Client javaClient = DeviceFlow.registerClient(authProvider,	"JavaClient", "cpa_java", "1.0");
-//			
-//			System.out.println("*****\nRegistered client:" + javaClient	+ "\n*****");
-//			
-//			// ask for the client token
-//			Token javaClientToken = DeviceFlow.requestClientAccessToken(authProvider, javaClient.getId(), javaClient.getSecret(),domain);
-//			javaClient.setToken(javaClientToken);
-//			
-//			System.out.println("*****\nThe client token:" + javaClientToken + "\n*****");
-//			
-//			 //just to test we tag the station:
-//			 currentTime=Long.toString((date.getTime()/1000)); // as the js demo client is doing this we follow the same method
-//			 DeviceFlow.tagRadioClientMode(domain, station,currentTime , javaClient.getToken().getAccessToken());
+			// register the client
+			Client javaClient = DeviceFlow.registerClient(authProvider,	"JavaClient", "cpa_java", "1.0");
+			
+			System.out.println("*****\nRegistered client:" + javaClient	+ "\n*****");
+			
+			// ask for the client token
+			Token javaClientToken = DeviceFlow.requestClientAccessToken(authProvider, javaClient.getId(), javaClient.getSecret(),domain);
+			javaClient.setToken(javaClientToken);
+			
+			System.out.println("*****\nThe client token:" + javaClientToken + "\n*****");
+			
+			 //just to test we tag the station:
+			 currentTime=Long.toString((date.getTime()/1000)); // as the js demo client is doing this we follow the same method
+			 DeviceFlow.tagRadioClientMode(domain, station,currentTime , javaClient.getToken().getAccessToken());
 
 			
 			// try to associate a user:
