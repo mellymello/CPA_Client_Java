@@ -1,2 +1,4 @@
 # CPA_Client_Java
-Client Implementation in Java for CPA 
+Library Implementation and Client Implementation in Java for CPA protocol
+
+For more information see : https://tech.ebu.ch/cpa
